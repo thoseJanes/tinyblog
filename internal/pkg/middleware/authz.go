@@ -15,7 +15,7 @@ type Auther interface {
 
 func Authz(a *auth.Authz) gin.HandlerFunc {
 	return func(c *gin.Context){
-		sub := c.Request.Header.Get(core.XUsernameKey)
+		sub := c.GetHeader(core.XUsernameKey)
 		obj := c.Request.URL.Path
 		act := c.Request.Method
 		if allow, _ := a.Authorize(sub, obj, act); !allow{
