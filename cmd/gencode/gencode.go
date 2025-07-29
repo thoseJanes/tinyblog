@@ -1,68 +1,71 @@
 package main
 
 import (
-	"bytes"
-	"fmt"
-	"os"
+	"errors"
 	"strings"
-	"text/template"
-
-	"gopkg.in/yaml.v2"
+	"github.com/spf13/cobra"
+	"github.com/thoseJanes/tinyblog/pkg/gencode"
 )
+
+var(
+	source = gencode.SourceTemplate
+	mode = gencode.ModeGenIfNotExists//默认情况下保守策略，只有文件不存在才会生成代码。
+	outputPath string
+	inputPath string
+)
+
+var(
+	// interfaceTypes []string
+	// implementTypes []string
+	interfaceReflection []string
+)
+
+var rootCmd = &cobra.Command{
+	Use: "gencode",
+	Short: "Generate code from a yaml file.",
+	SilenceUsage: true,
+	RunE: func(c *cobra.Command, args []string) error {
+		// outputPath, _ := c.Flags().GetString("output")
+		inputPath = args[0]
+		// fmt.Printf("%v\n", args)
+		// fmt.Printf("%v\n", outputPath)
+		
+		return run()
+	},
+	Args: cobra.ExactArgs(1),
+}
 
 
 func main(){
-	if len(os.Args) < 2 {
-		fmt.Println("The path of template should be input.")
-		os.Exit(0)
-	}
-	tmlPath := os.Args[1]
-
-	if !strings.HasSuffix(tmlPath, ".go.yml") {
-		fmt.Println(`template path should has suffix ".go.yml".`)
-		os.Exit(0)
-	}
-
-	data, err := os.ReadFile(tmlPath)
-	if err != nil {
-		fmt.Println(`Failed in reading yaml file`, tmlPath, ". Error:", err.Error())
-		os.Exit(0)
-	}
-
-	// var templateData templateData
-	// err = yaml.Unmarshal(data, &templateData)
-	// if err != nil {
-	// 	fmt.Println(`Failed in translating yaml file to data.`)
-	// 	os.Exit(0)
-	// }
-
-	var templateData map[string]interface{}
-	err = yaml.Unmarshal(data, &templateData)
-	if err != nil {
-		fmt.Println(`Failed in translating yaml file to data. Error:`, err.Error())
-		os.Exit(0)
-	}
-
-	tml, err := template.New("").Parse(templateData["template"].(string))
-	if err != nil {
-		fmt.Println("Failed in creating template. Error:", err.Error())
-		os.Exit(0)
-	}
-
-	// to prevent template from using itself as a parameter
-	delete(templateData, "template")
-
-	var bb bytes.Buffer
-	err = tml.Execute(&bb, templateData)
-	if err != nil {
-		fmt.Println("Failed in executing template. Error:", err.Error())
-		os.Exit(0)
-	}
-
-	goFile, _ := strings.CutSuffix(tmlPath, ".yml")
-	goFile, _ = strings.CutPrefix(goFile, "gen.")
-	err = os.WriteFile("./" + goFile, bb.Bytes(), 0644)
-	if err != nil {
-		fmt.Println("Failed in writing file", goFile, "Error:" , err.Error())
-	}
+	rootCmd.PersistentFlags().StringVarP(&outputPath, "output", "o", "", "The output path of generated code file.")
+	rootCmd.PersistentFlags().VarP(&source, "type", "t", "Input type. Default type is template(t). Support interface(i) whose name should be specified.")
+	rootCmd.PersistentFlags().StringSliceVarP(&interfaceReflection, "reflect", "r", nil, 
+		`Interface to be implemented and the name of its implement splited by ":". Support multiple reflection connected by ",".`)
+	rootCmd.PersistentFlags().VarP(&mode, "mode", "m", "Mode to generate code. Overwrite(o), append(a) or Generate if not exists(n).")
+	// rootCmd.Flags().Var()
+	rootCmd.Execute()
 }
+
+
+func run() error {
+	switch source {
+	case gencode.SourceTemplate:
+		return gencode.GenerateFromTemplate(inputPath, outputPath, mode)
+	case gencode.SourceInterface:
+		var reflection = map[string]string{}
+		for _, item := range interfaceReflection {
+			pair := strings.Split(item, ":")
+			if len(pair) != 2 {
+				return errors.New("invalid interface reflection")
+			}
+			reflection[pair[0]] = pair[1]
+		}
+		return gencode.GenerateFromInterface(inputPath, outputPath, mode, reflection)
+	}
+
+	return errors.New("invalid source type")
+}
+
+
+
+
