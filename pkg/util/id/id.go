@@ -4,7 +4,7 @@ import(
 	shortid "github.com/0x5487/go-short-id"
 )
 
-func GenShortID() string {
+func GenShortId() string {
 	opt := shortid.Options{
 		Number: 5,
 		StartWithYear: true,
