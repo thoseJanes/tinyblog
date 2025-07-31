@@ -1,25 +1,19 @@
 template: |
   package log
 
-  import (
-    {{range .import}}
-    "{{.}}"
-    {{end}}
-  )
-
   var _ Logger = &zapLogger{}
 
   {{range .loglevel}}
   func {{.}}w (msg string, keyAndValues ...interface{}) {
-    return std.z.{{.}}w(msg, keyAndValues...)
+    std.z.Sugar().{{.}}w(msg, keyAndValues...)
   }
 
   func (l *zapLogger) {{.}}w (msg string, keyAndValues ...interface{}){
-    return l.z.{{.}}w(msg, keyAndValues...)
+    l.z.Sugar().{{.}}w(msg, keyAndValues...)
   }
   {{end}}
 
 
-import: [go.uber.org/zap, go.uber.org/zap/zapcore]
+import: []
 loglevel: [Debug, Info, Warn, Error, Panic, Fatal]
 

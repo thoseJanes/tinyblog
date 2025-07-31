@@ -1,10 +1,12 @@
-//go:generate
+//go:generate gencode ./gen.zaplog.go.yml -m o
 package log
 
 import (
+	"context"
 	"sync"
 	"time"
 
+	"github.com/thoseJanes/tinyblog/internal/pkg/core"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -17,7 +19,8 @@ type Logger interface {
 	Panicw(msg string, keyAndValues ...interface{})
 	Fatalw(msg string, keyAndValues ...interface{})
 	Sync()
-	Clone() *Logger
+	Clone() Logger
+	C(ctx context.Context) Logger
 }
 
 type zapLogger struct{
@@ -83,13 +86,30 @@ func (l *zapLogger) Sync() {
 	l.z.Sync()
 }
 
-func Clone() zapLogger {
+func Clone() Logger {
 	lc := *std
-	return lc
+	return &lc
 }
 
-func (l *zapLogger) Clone() zapLogger {
+func (l *zapLogger) Clone() Logger {
 	lc := *l
-	return lc
+	return &lc
 }
 
+func (l *zapLogger) C(ctx context.Context) Logger {
+	lc := *l
+
+	if requestId := ctx.Value(core.XRequestIdKey); requestId != nil {
+		lc.z.With(zap.Any(core.XRequestIdKey, requestId))
+	}
+
+	if username := ctx.Value(core.XUsernameKey); username != nil {
+		lc.z.With(zap.Any(core.XUsernameKey, username))
+	}
+
+	return &lc
+}
+
+func C(ctx context.Context) Logger {
+	return std.C(ctx)
+}
