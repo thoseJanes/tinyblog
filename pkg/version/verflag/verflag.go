@@ -70,7 +70,7 @@ func Version(name string, value versionValue, usage string) *versionValue {
 	return vv
 }
 
-func AddFlagToSet(fs *pflag.FlagSet) {
+func AddToFlagSet(fs *pflag.FlagSet) {
 	fs.AddFlag(pflag.Lookup(flagName))
 }
 

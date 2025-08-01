@@ -24,7 +24,7 @@ const(
 
 
 type Authz struct{
-	enforcer *casbin.SyncedEnforcer
+	Enforcer *casbin.SyncedEnforcer
 }
 
 func NewAuthz(db *gorm.DB) (*Authz, error) {
@@ -54,5 +54,5 @@ func NewAuthz(db *gorm.DB) (*Authz, error) {
 
 
 func (authz *Authz) Authorize(sub, obj, act string) (bool, error) {
-	return authz.enforcer.Enforce(sub, obj, act)
+	return authz.Enforcer.Enforce(sub, obj, act)
 }
