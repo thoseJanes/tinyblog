@@ -15,8 +15,9 @@ func (e *Errno) Error() string {
 	return e.Message
 }
 
-func (e *Errno) SetMessage(format string, args ...interface{}) {
+func (e *Errno) SetMessage(format string, args ...interface{}) *Errno {
 	e.Message = fmt.Sprintf(format, args...)
+	return e
 }
 
 
