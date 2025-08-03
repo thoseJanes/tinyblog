@@ -1,0 +1,24 @@
+#运行：go run cmd/gencode/gencode.go test/gencode/test.go.yml测试。
+template: |
+  package testGencode
+
+  import (
+    {{range .import}}
+    "{{.}}"
+    {{end}}
+  )
+  
+  {{range .loglevel}}
+  func {{.}}w (msg string, keyAndValues ...interface{}) {
+    return std.z.{{.}}w(msg, keyAndValues...)
+  }
+
+  func (l *zapLogger) {{.}}w (msg string, keyAndValues ...interface{}){
+    return l.z.{{.}}w(msg, keyAndValues...)
+  }
+  {{end}}
+
+
+import: [go.uber.org/zap, go.uber.org/zap/zapcore]
+loglevel: [Debug, Info, Warn, Error, Panic, Fatal]
+
