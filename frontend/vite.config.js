@@ -27,32 +27,23 @@ export default defineConfig({
       vue: 'vue/dist/vue.esm-bundler.js', // 使用完整版
     },
   },
-  pages: {
-    mainpage: {
-      entry: 'src/main.js',
-      template: 'public/index.html',
-      filename: 'index.html'
-    },
-    login: {
-      entry: 'src/login.js',
-      template: 'public/login.html',
-      filename: 'login.html'
-    },
-    userpage: {
-      entry: 'src/userpage.js',
-      template: 'public/userpage.html',
-      filename: 'userpage.html'
-    },
-  },
-  
-  devServer: {
-    proxy: {
-      '/api': {  // 所有以 /api 开头的请求
-        target: 'http://localhost:3000',  // 后端地址
-        changeOrigin: true,
-        pathRewrite: { '^/api': '' }  // 移除 /api 前缀
-      }
-    }
-  }
+  // pages: {
+  //   mainpage: {
+  //     entry: 'src/main.js',
+  //     template: 'public/index.html',
+  //     filename: 'index.html'
+  //   },
+  //   login: {
+  //     entry: 'src/login.js',
+  //     template: 'public/login.html',
+  //     filename: 'login.html'
+  //   },
+  //   userpage: {
+  //     entry: 'src/userpage.js',
+  //     template: 'public/userpage.html',
+  //     filename: 'userpage.html'
+  //   },
+  // },
+
 
 })

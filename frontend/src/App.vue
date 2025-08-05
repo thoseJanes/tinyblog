@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { RouterView, RouterLink } from 'vue-router'
 
 const searchContent = ref("")
 const hasLogin = ref(false)
@@ -13,13 +14,14 @@ const hasLogin = ref(false)
             <button class="top_bar_search_button">search</button>
         </div>
 
-        <!-- <router-link to="/login"><button class="login">login</button></router-link>
-        <router-link to="/user"><button class="login">userInfo</button></router-link> -->
-        <a href="/login.html"><button class="login">login</button></a>
-        <a href="/userpage.html"><button class="login">userInfo</button></a>
+        <RouterLink to="/login"><button class="login">login</button></RouterLink>
+        <RouterLink to="/user"><button class="login">userInfo</button></RouterLink>
+        <!-- <a href="/login.html"><button class="login">login</button></a>
+        <a href="/userpage.html"><button class="login">userInfo</button></a> -->
     </div>
     </br>
     <div class="content">
+      <RouterView></RouterView>
     </div>
 </div>
 </template>

@@ -140,7 +140,7 @@ function findNextElement(startElement, targetTagName) {
 </script>
 
 <template>
-<div style="min-width: 100%;width: max-content;min-height: 100%;height: max-content;display:flex;flex-direction: column;align-items: center;">
+<div style="min-width: 100%;width: max-content;display:flex;flex-direction: column;align-items: center;">
     <div class="login_box">
         <fieldset style="border-style: dashed;border-width: 5px; border-color: rgb(109, 109, 109);padding: 30px;">
             <legend style="font-size: 30px;" id="legend">Login</legend>
@@ -171,7 +171,9 @@ function findNextElement(startElement, targetTagName) {
             </form>
         </fieldset>
     </div>
-    <div style="flex-grow: 1;"></div>
+    <div style="flex-grow: 5;height: 20%;">
+        <p></p>
+    </div>
 </div>
 </template>
 

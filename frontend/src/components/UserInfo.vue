@@ -17,6 +17,8 @@ const editPhone=ref("")
 const editEmail=ref("")
 const isEditing=ref(false)
 
+const login=ref(false)
+
 function getRequest(){
     axios.get("/", token)
     .then(function(response){
@@ -70,8 +72,8 @@ function saveProfile(){
 </script>
 
 <template>
-    <div class = "user_content">
-        <form id = "userProfileForm">
+    
+        <form v-if="login" id = "userProfileForm">
             <div>
                 <label class="label_key">username</label>
                 <label class="label_value">{{ username }}</label>
@@ -106,7 +108,7 @@ function saveProfile(){
                 <button style="width: 50;flex-grow: 1;">changePassword</button>
             </div>
         </form>
-    </div>
+    
 
 </template>
 
@@ -124,28 +126,5 @@ function saveProfile(){
     text-align: left;
 }
 
-.user_content input {
-    height: 25px;
-    min-width: none;
-    width: 50px;
-    margin-bottom: 20px;
-    font-size: large;
-    flex-grow: 1;
-}
-.user_content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 5;
-    align-items: center;
-    background-color: rgb(178, 255, 188);
-    padding: 20px;
-    
-}
 
-.user_content div {
-    height: 50px;
-    width: 400px;
-    display: flex;
-    flex-direction: row;
-}
 </style>
