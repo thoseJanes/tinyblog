@@ -11,17 +11,18 @@ import (
 
 
 const(
-	aclModel = `
-	[request_definition]
+	aclModel = `[request_definition]
 	r = sub, obj, act
+
 	[policy_definition]
 	p = sub, obj, act
+
 	[policy_effect]
-	e = some(where(p.eft == allow))
+	e = some(where (p.eft == allow))
+
 	[matchers]
 	m = r.sub == p.sub && keyMatch(r.obj, p.obj) && regexMatch(r.act, p.act)`
 )
-
 
 type Authz struct{
 	Enforcer *casbin.SyncedEnforcer
