@@ -75,6 +75,7 @@ func (u *userBiz) Update(ctx context.Context, username string, r *v1.UpdateUserR
 	// }
 
 	copier.Copy(&userM, r)
+	userM.Username = username
 	if err := u.ds.UserStore().Update(ctx, &userM); err != nil {
 		return err
 	}

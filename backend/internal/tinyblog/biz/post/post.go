@@ -33,6 +33,7 @@ func New(ds store.IStore) PostBiz {
 func (p *postBiz) Create(ctx context.Context, username string, r *v1.CreatePostRequest) (*v1.CreatePostResponse, error) {
 	var postM model.Post
 	copier.Copy(&postM, r)
+	postM.Username = username
 	if err := p.ds.PostStore().Create(ctx, &postM); err != nil {
 		return nil, err
 	}

@@ -20,7 +20,6 @@ func (ctrl *UserController) Update(c *gin.Context) {
 		return
 	}
 
-
 	if err := ctrl.b.User().Update(c, c.GetString(core.XUsernameKey), &req); err != nil {
 		core.WriteResponse(c, err, nil)
 		return

@@ -33,7 +33,7 @@ func (p *postStore)	Get(c context.Context, username, postId string) (*model.Post
 	return &post, err
 }
 func (p *postStore)	Update(c context.Context, post *model.Post) error {
-	return p.db.Where(post).Updates(*post).Error
+	return p.db.Where("username = ? and postId = ?", post.Username, post.PostId).Updates(*post).Error
 }
 func (p *postStore)	List(c context.Context, username string, offset,limit int) (int64, []model.Post, error) {
 	var posts []model.Post

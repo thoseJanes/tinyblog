@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,8 @@ func (ctrl *UserController) List(c *gin.Context) {
 		core.WriteResponse(c, err, nil)
 		return
 	}
+
+	fmt.Printf("%#v", req)
 
 	resp, err := ctrl.b.User().List(c, req.Offset, req.Limit)
 	if err != nil {

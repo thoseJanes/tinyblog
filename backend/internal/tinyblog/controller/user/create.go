@@ -8,6 +8,8 @@ import (
 	v1 "github.com/thoseJanes/tinyblog/pkg/api/tinyblog/v1"
 )
 
+const defaultMethods = "(GET)|(POST)|(PUT)|(DELETE)"
+
 func (ctrl *UserController) Create(c *gin.Context) {
 	var req v1.CreateUserRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -21,6 +23,11 @@ func (ctrl *UserController) Create(c *gin.Context) {
 	}
 
 	if err := ctrl.b.User().Create(c, &req); err != nil {
+		core.WriteResponse(c, err, nil)
+		return
+	}
+	
+	if _,err := ctrl.a.Enforcer.AddNamedPolicy("p", req.Username, "/api/v1/users/" + req.Username, defaultMethods); err!= nil {
 		core.WriteResponse(c, err, nil)
 		return
 	}
