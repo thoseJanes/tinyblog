@@ -3,6 +3,7 @@ package token
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -55,15 +56,17 @@ func ParseRequest(c *gin.Context) (string, error) {
 	}
 
 	var t string
-	fmt.Sscanf(a, "Bear %s", &t)
+	fmt.Sscanf(a, "Bearer %s", &t)
+	t = strings.Trim(t, " \n\t")
+	fmt.Println("token:", t)
 	return Parse(t, config.key)
 }
 
 func Sign(identity string) (string, error) {
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		config.identityKey: identity,
-		"nbf": time.Now(),
-		"iat": time.Now(),
+		"nbf": time.Now().Unix(),
+		"iat": time.Now().Unix(),
 		"exp": time.Now().Add(time.Hour * 2).Unix(),
 	})
 
