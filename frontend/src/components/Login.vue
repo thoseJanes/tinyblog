@@ -1,6 +1,7 @@
 <script setup>
-import {ref} from 'vue'
+import {handleError, onMounted, ref} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/user';
 
 const isLogin = ref(true)
 import axios from 'axios';
@@ -8,10 +9,17 @@ import axios from 'axios';
 const loginText = ref("登陆")
 const signupText = ref("注册>>")
 
-function login(){
+const authStore = useAuthStore()
+const router = useRouter()
+
+onMounted(() => {
     document.getElementById("userInfo").addEventListener("submit", function(event) {
         event.preventDefault();
     });
+    clearTip()
+})
+
+function login(){
     clearTip()
     
     if(isLogin.value == false){
@@ -20,15 +28,11 @@ function login(){
         signupText.value = "注册>>"
         document.getElementById("legend").innerText = "Login"
     }else{
-        console.log("login")
         loginRequest();
     }
 }
 
 function signup(){
-    document.getElementById("userInfo").addEventListener("submit", function(event) {
-        event.preventDefault();
-    });
     clearTip()
 
     if(isLogin.value == true){
@@ -37,7 +41,6 @@ function signup(){
         signupText.value = "注册"
         document.getElementById("legend").innerText = "Signup"
     }else{
-        console.log("signup")
         signupRequest();
     }
 }
@@ -49,34 +52,34 @@ function loginRequest(){
     if(!form.checkValidity()){
         return
     }
-    axios.post('/api/login/', {
-        'username': data.get('username'),
-        'password': data.get('password'),
-    })
+    axios.post('/api/login/', Object.fromEntries(data.entries()))
     .then(function (response) {
-        if(response.status != axios.HttpStatusCode.Ok){
-            const errno = response?.data?.code;
-            if(errno == "ResourceNotFound.UserNotFound"){
-                setTip('username', '用户不存在!')
-            }else if(errno == "AuthFailure.PasswordIncorrect"){
-                setTip('password', '密码错误！')
-            }else{
-                alert("服务器错误!");
-            }
-        }else{
-            const token = response?.data?.token;
-            if(!token){
-                alert("请求成功，但未获得token!");
-            }else{
-                window.location = "index.html"
-                localStorage.setItem("jwt_token", token)
-            }
+        const token = response?.data?.token;
+        if(!token){
+            throw error("未获得token!")
         }
+        authStore.setUserInfo(token, data.get("username"))
+        router.push("/")
         console.log(response);
+        isLogin.value = true;
     })
     .catch(function (error) {
+        const errno = error.response?.data?.code;
+        handleLoginErrno(errno)
         console.log(error);
     });
+}
+
+function handleLoginErrno(errno){
+    if(!errno){
+        alert("未知错误,");
+    }else if(errno == "ResourceNotFound.UserNotFound"){
+        setTip('username', '用户不存在!')
+    }else if(errno == "AuthFailure.PasswordIncorrect"){
+        setTip('password', '密码错误！')
+    }else{
+        alert("服务器错误!");
+    }
 }
 
 function signupRequest(){
@@ -96,6 +99,10 @@ function signupRequest(){
         console.log(response);
     })
     .catch(function (error) {
+        const code = error.response?.data?.code;
+        if(code == "FailedOperation.UserAlreadyExist"){
+            setTip("username", "用户名已存在")
+        }
         console.log(error);
     });
 }

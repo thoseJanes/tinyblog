@@ -3,11 +3,10 @@ import { ref } from 'vue'
 import { RouterView, RouterLink } from 'vue-router'
 
 const searchContent = ref("")
-const hasLogin = ref(false)
 </script>
 
 <template>
-<div style="min-width: 100%;width: max-content;min-height: 100%;height: max-content;display:flex;flex-direction: column;align-items: center;">
+<div style="width: 100%;min-height: 100%;height: max-content;display:flex;flex-direction: column;align-items: center;">
     <div class="top_bar">
         <div class="top_bar_search">
             <input v-model="searchContent" class="top_bar_search_input"></input>
@@ -15,11 +14,12 @@ const hasLogin = ref(false)
         </div>
 
         <RouterLink to="/login"><button class="login">login</button></RouterLink>
-        <RouterLink to="/user"><button class="login">userInfo</button></RouterLink>
-        <!-- <a href="/login.html"><button class="login">login</button></a>
-        <a href="/userpage.html"><button class="login">userInfo</button></a> -->
+        <RouterLink to="/userinfo"><button class="login">userInfo</button></RouterLink>
+        <RouterLink to="/editpost"><button class="login">+blog</button></RouterLink>
     </div>
     </br>
+    <div style="height: 1px;width: 100%;background-color: black;">
+    </div>
     <div class="content">
       <RouterView></RouterView>
     </div>
@@ -45,7 +45,7 @@ const hasLogin = ref(false)
 .content {
     width: 100%;
     vertical-align: bottom;
-    background-color: rgb(199, 199, 199);
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-grow: 1;
 }
