@@ -7,7 +7,7 @@ import (
 
 type User struct {
 	TimeAndId
-	Username string `gorm:"column:username;not null"`
+	Username string `gorm:"column:username;not null;unique"`
 	Password string `gorm:"column:password;not null"`
 	Nickname string `gorm:"column:nickname"`
 	Email string `gorm:"column:email"`

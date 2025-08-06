@@ -13,7 +13,7 @@ type Post struct{
 	TimeAndId
 	Username string `gorm:"column:username;not null"`
 	Title string `gorm:"column:title;not null"`
-	PostId string `gorm:"column:postId;not null"`
+	PostId string `gorm:"column:postId;not null;unique"`
 	Content string `gorm:"column:content"`
 }
 
