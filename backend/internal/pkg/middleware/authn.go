@@ -11,7 +11,7 @@ func Authn() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		username, err := token.ParseRequest(c)
 		if err != nil {
-			core.WriteResponse(c, errno.ErrTokenInvalid, nil)
+			core.WriteResponse(c, errno.ErrTokenInvalid.SetMessage("%s", err.Error()), nil)
 			c.Abort()
 		}else{
 			c.Set(core.XUsernameKey, username)
