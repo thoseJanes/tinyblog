@@ -1,0 +1,5 @@
+setup.py
+tinyblog.egg-info/PKG-INFO
+tinyblog.egg-info/SOURCES.txt
+tinyblog.egg-info/dependency_links.txt
+tinyblog.egg-info/top_level.txt

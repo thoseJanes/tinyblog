@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+service AIService{
+    rpc GenerateTitleAndTag (PromptContentRequest) returns (GenerateTitleAndTagResponse) {}
+    // rpc PolishContent (PromptContentRequest) returns (stream PolishContentResponse) {}
+    // rpc SearchPosts (PromptRequest) returns (stream SearchPostsResponse) {}
+    // rpc SummaryPosts (PromptRequest) returns (stream SummaryPostsResponse) {}
+}
+
+message PromptRequest{
+    string prompt = 1;
+    repeated string postIds = 2;
+}
+
+//如果包含多轮搜索，可能是比较耗时的操作，可以借助go的协程来完成多轮搜索并合并，不需要agent直接操作？
+//1\给出一个搜索语句，搜索其title和abstract（或者只搜索title），筛选出一定条数内容。
+//2\查看title和abstract，筛选出符合条件的内容
+//3\生成筛选评价，以及筛选结果。
+message SearchPostsResponse{
+    repeated string postIds = 1;
+    string evaluation = 2;//给出一个summary说明ai对搜索可行性及结果可信程度的评估。
+}
+
+message SummaryPostsResponse{
+    string content = 1;
+}
+
+message PromptContentRequest{
+    string prompt = 1;
+    string content = 2;
+}
+
+message GenerateTitleAndTagResponse{
+    string title = 1;
+    repeated string tags = 2;
+}
+
+message PolishContentResponse{
+    string contentChunk = 1;
+}
