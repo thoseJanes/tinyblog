@@ -17,17 +17,14 @@ class PromptRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     PROMPT_FIELD_NUMBER: builtins.int
-    POSTIDS_FIELD_NUMBER: builtins.int
     prompt: builtins.str
-    @property
-    def postIds(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]: ...
+    """repeated string postIds = 2;"""
     def __init__(
         self,
         *,
         prompt: builtins.str = ...,
-        postIds: collections.abc.Iterable[builtins.str] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["postIds", b"postIds", "prompt", b"prompt"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["prompt", b"prompt"]) -> None: ...
 
 global___PromptRequest = PromptRequest
 
@@ -41,19 +38,18 @@ class SearchPostsResponse(google.protobuf.message.Message):
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
-    POSTIDS_FIELD_NUMBER: builtins.int
+    IDS_FIELD_NUMBER: builtins.int
     EVALUATION_FIELD_NUMBER: builtins.int
     evaluation: builtins.str
-    """给出一个summary说明ai对搜索可行性及结果可信程度的评估。"""
     @property
-    def postIds(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]: ...
+    def ids(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]: ...
     def __init__(
         self,
         *,
-        postIds: collections.abc.Iterable[builtins.str] | None = ...,
+        ids: collections.abc.Iterable[builtins.str] | None = ...,
         evaluation: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["evaluation", b"evaluation", "postIds", b"postIds"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["evaluation", b"evaluation", "ids", b"ids"]) -> None: ...
 
 global___SearchPostsResponse = SearchPostsResponse
 

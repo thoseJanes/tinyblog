@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x61iservice.proto\"0\n\rPromptRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\x12\x0f\n\x07postIds\x18\x02 \x03(\t\":\n\x13SearchPostsResponse\x12\x0f\n\x07postIds\x18\x01 \x03(\t\x12\x12\n\nevaluation\x18\x02 \x01(\t\"\'\n\x14SummaryPostsResponse\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\t\"7\n\x14PromptContentRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\":\n\x1bGenerateTitleAndTagResponse\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0c\n\x04tags\x18\x02 \x03(\t\"-\n\x15PolishContentResponse\x12\x14\n\x0c\x63ontentChunk\x18\x01 \x01(\t2Y\n\tAIService\x12L\n\x13GenerateTitleAndTag\x12\x15.PromptContentRequest\x1a\x1c.GenerateTitleAndTagResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x61iservice.proto\"\x1f\n\rPromptRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\"6\n\x13SearchPostsResponse\x12\x0b\n\x03ids\x18\x01 \x03(\t\x12\x12\n\nevaluation\x18\x02 \x01(\t\"\'\n\x14SummaryPostsResponse\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\t\"7\n\x14PromptContentRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\":\n\x1bGenerateTitleAndTagResponse\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0c\n\x04tags\x18\x02 \x03(\t\"-\n\x15PolishContentResponse\x12\x14\n\x0c\x63ontentChunk\x18\x01 \x01(\t2\xd4\x01\n\tAIService\x12L\n\x13generateTitleAndTag\x12\x15.PromptContentRequest\x1a\x1c.GenerateTitleAndTagResponse\"\x00\x12\x42\n\rpolishContent\x12\x15.PromptContentRequest\x1a\x16.PolishContentResponse\"\x00\x30\x01\x12\x35\n\x0bsearchPosts\x12\x0e.PromptRequest\x1a\x14.SearchPostsResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,17 +32,17 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'aiservice_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_PROMPTREQUEST']._serialized_start=19
-  _globals['_PROMPTREQUEST']._serialized_end=67
-  _globals['_SEARCHPOSTSRESPONSE']._serialized_start=69
-  _globals['_SEARCHPOSTSRESPONSE']._serialized_end=127
-  _globals['_SUMMARYPOSTSRESPONSE']._serialized_start=129
-  _globals['_SUMMARYPOSTSRESPONSE']._serialized_end=168
-  _globals['_PROMPTCONTENTREQUEST']._serialized_start=170
-  _globals['_PROMPTCONTENTREQUEST']._serialized_end=225
-  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_start=227
-  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_end=285
-  _globals['_POLISHCONTENTRESPONSE']._serialized_start=287
-  _globals['_POLISHCONTENTRESPONSE']._serialized_end=332
-  _globals['_AISERVICE']._serialized_start=334
-  _globals['_AISERVICE']._serialized_end=423
+  _globals['_PROMPTREQUEST']._serialized_end=50
+  _globals['_SEARCHPOSTSRESPONSE']._serialized_start=52
+  _globals['_SEARCHPOSTSRESPONSE']._serialized_end=106
+  _globals['_SUMMARYPOSTSRESPONSE']._serialized_start=108
+  _globals['_SUMMARYPOSTSRESPONSE']._serialized_end=147
+  _globals['_PROMPTCONTENTREQUEST']._serialized_start=149
+  _globals['_PROMPTCONTENTREQUEST']._serialized_end=204
+  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_start=206
+  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_end=264
+  _globals['_POLISHCONTENTRESPONSE']._serialized_start=266
+  _globals['_POLISHCONTENTRESPONSE']._serialized_end=311
+  _globals['_AISERVICE']._serialized_start=314
+  _globals['_AISERVICE']._serialized_end=526
 # @@protoc_insertion_point(module_scope)
