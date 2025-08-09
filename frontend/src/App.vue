@@ -1,8 +1,26 @@
 <script setup>
 import { ref } from 'vue'
-import { RouterView, RouterLink } from 'vue-router'
+import { RouterView, RouterLink, useRouter } from 'vue-router'
 
 const searchContent = ref("")
+const router = useRouter()
+
+
+function toSearchPage(){
+    router.push({
+        path:"/search",
+        query:{"text":searchContent.value}
+    }).then(()=>{
+        location.reload()
+    })
+}
+
+function toAiSearchPage(){
+    router.push({
+        path:"/aisearch",
+        query:{"prompt":searchContent.value}
+    })
+}
 </script>
 
 <template>
@@ -10,7 +28,8 @@ const searchContent = ref("")
     <div class="top_bar">
         <div class="top_bar_search">
             <input v-model="searchContent" class="top_bar_search_input"></input>
-            <button class="top_bar_search_button">search</button>
+            <button class="top_bar_search_button" @click="toSearchPage">search</button>
+            <button class="top_bar_search_button" @click="toAiSearchPage">aiSearch</button>
         </div>
 
         <RouterLink to="/login"><button class="login">login</button></RouterLink>

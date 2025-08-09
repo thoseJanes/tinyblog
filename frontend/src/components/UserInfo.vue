@@ -70,6 +70,8 @@ function updateRequest(){
     })
     .catch(function(err){
         console.log(err)
+        alert(err.response.data.message)
+        location.reload()
     })
 }
 

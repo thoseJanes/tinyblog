@@ -13,6 +13,8 @@ import EditPost from './components/EditPost.vue';
 import { useAuthStore } from './stores/user';
 import { createPinia } from 'pinia';
 import axios from 'axios';
+import SearchPage from './components/SearchPage.vue';
+import AiSearchPage from './components/AiSearchPage.vue';
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -21,6 +23,8 @@ const routes = [
     { path: '/', component: MainPage},
     { path: '/login', component: Login},
     { path: '/editpost', component: EditPost},
+    { path: '/search', component: SearchPage},
+    { path: '/aisearch', component: AiSearchPage},
     { path: '/userpage', component: UserPage,
         children: [
             { path: '/userinfo', component: UserInfo },

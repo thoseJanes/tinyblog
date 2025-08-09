@@ -23,7 +23,7 @@ function listPostRequest(){
     axios.get("/api/v1/posts?" + "limit=" + limit.value + "&offset=" + offset)
     .then((response)=>{
         posts.value = response.data.posts
-        totalPage.value = parseInt((response.data.count-1)/limit.value + 1)
+        totalPage.value = parseInt((response.data.totalCount-1)/limit.value + 1)
     })
 }
 
