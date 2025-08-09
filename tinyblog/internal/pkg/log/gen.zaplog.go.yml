@@ -1,0 +1,19 @@
+template: |
+  package log
+
+  var _ Logger = &zapLogger{}
+
+  {{range .loglevel}}
+  func {{.}}w (msg string, keyAndValues ...interface{}) {
+    std.z.Sugar().{{.}}w(msg, keyAndValues...)
+  }
+
+  func (l *zapLogger) {{.}}w (msg string, keyAndValues ...interface{}){
+    l.z.Sugar().{{.}}w(msg, keyAndValues...)
+  }
+  {{end}}
+
+
+import: []
+loglevel: [Debug, Info, Warn, Error, Panic, Fatal]
+
