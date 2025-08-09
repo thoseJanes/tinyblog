@@ -18,7 +18,6 @@ class PromptRequest(google.protobuf.message.Message):
 
     PROMPT_FIELD_NUMBER: builtins.int
     prompt: builtins.str
-    """repeated string postIds = 2;"""
     def __init__(
         self,
         *,
@@ -30,10 +29,10 @@ global___PromptRequest = PromptRequest
 
 @typing.final
 class SearchPostsResponse(google.protobuf.message.Message):
-    """如果包含多轮搜索，可能是比较耗时的操作，可以借助go的协程来完成多轮搜索并合并，不需要agent直接操作？
-    1\\给出一个搜索语句，搜索其title和abstract（或者只搜索title），筛选出一定条数内容。
-    2\\查看title和abstract，筛选出符合条件的内容
-    3\\生成筛选评价，以及筛选结果。
+    """message SummaryPostsRequest{
+        string prompt = 1;
+        repeated string ids = 2;
+    }
     """
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
@@ -54,7 +53,7 @@ class SearchPostsResponse(google.protobuf.message.Message):
 global___SearchPostsResponse = SearchPostsResponse
 
 @typing.final
-class SummaryPostsResponse(google.protobuf.message.Message):
+class ContentRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
     CONTENT_FIELD_NUMBER: builtins.int
@@ -66,7 +65,7 @@ class SummaryPostsResponse(google.protobuf.message.Message):
     ) -> None: ...
     def ClearField(self, field_name: typing.Literal["content", b"content"]) -> None: ...
 
-global___SummaryPostsResponse = SummaryPostsResponse
+global___ContentRequest = ContentRequest
 
 @typing.final
 class PromptContentRequest(google.protobuf.message.Message):
@@ -119,3 +118,18 @@ class PolishContentResponse(google.protobuf.message.Message):
     def ClearField(self, field_name: typing.Literal["contentChunk", b"contentChunk"]) -> None: ...
 
 global___PolishContentResponse = PolishContentResponse
+
+@typing.final
+class SummaryContentResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    CONTENTCHUNK_FIELD_NUMBER: builtins.int
+    contentChunk: builtins.str
+    def __init__(
+        self,
+        *,
+        contentChunk: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["contentChunk", b"contentChunk"]) -> None: ...
+
+global___SummaryContentResponse = SummaryContentResponse

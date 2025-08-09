@@ -1,10 +1,14 @@
 syntax = "proto3";
 
+package v1;
+
+option go_package = "github.com/thoseJanes/tinyblog/pkg/proto/aiservice/v1";
+
 service AIService{
     rpc generateTitleAndTag (PromptContentRequest) returns (GenerateTitleAndTagResponse) {}
     rpc polishContent (PromptContentRequest) returns (stream PolishContentResponse) {}
     rpc searchPosts (PromptRequest) returns (SearchPostsResponse) {}
-    // rpc SummaryPosts (SummaryPostsRequest) returns (stream SummaryPostsResponse) {}
+    rpc summaryContent (ContentRequest) returns (stream SummaryContentResponse) {}
 }
 
 message PromptRequest{
@@ -16,16 +20,16 @@ message PromptRequest{
 //     repeated string ids = 2;
 // }
 
-// message SummaryPostsResponse{
-//     string content = 1;
-// }
+
 
 message SearchPostsResponse{
     repeated string ids = 1;
     string evaluation = 2;
 }
 
-
+message ContentRequest{
+    string content = 1;
+}
 
 message PromptContentRequest{
     string prompt = 1;
@@ -37,6 +41,12 @@ message GenerateTitleAndTagResponse{
     repeated string tags = 2;
 }
 
+
+
 message PolishContentResponse{
+    string contentChunk = 1;
+}
+
+message SummaryContentResponse{
     string contentChunk = 1;
 }

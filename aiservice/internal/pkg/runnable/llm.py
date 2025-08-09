@@ -2,7 +2,7 @@ import os
 import yaml
 from langchain_openai import ChatOpenAI
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from configs.config import Config
+from config.config import Config
 # ChatOpenAI、agent、链等，本身是线程安全的，但是如果附带记忆机制，或含跨线程callbacks，则不是线程安全的。
 
 

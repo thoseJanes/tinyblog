@@ -24,25 +24,28 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x61iservice.proto\"\x1f\n\rPromptRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\"6\n\x13SearchPostsResponse\x12\x0b\n\x03ids\x18\x01 \x03(\t\x12\x12\n\nevaluation\x18\x02 \x01(\t\"\'\n\x14SummaryPostsResponse\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\t\"7\n\x14PromptContentRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\":\n\x1bGenerateTitleAndTagResponse\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0c\n\x04tags\x18\x02 \x03(\t\"-\n\x15PolishContentResponse\x12\x14\n\x0c\x63ontentChunk\x18\x01 \x01(\t2\xd4\x01\n\tAIService\x12L\n\x13generateTitleAndTag\x12\x15.PromptContentRequest\x1a\x1c.GenerateTitleAndTagResponse\"\x00\x12\x42\n\rpolishContent\x12\x15.PromptContentRequest\x1a\x16.PolishContentResponse\"\x00\x30\x01\x12\x35\n\x0bsearchPosts\x12\x0e.PromptRequest\x1a\x14.SearchPostsResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x61iservice.proto\x12\x02v1\"\x1f\n\rPromptRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\"6\n\x13SearchPostsResponse\x12\x0b\n\x03ids\x18\x01 \x03(\t\x12\x12\n\nevaluation\x18\x02 \x01(\t\"!\n\x0e\x43ontentRequest\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\t\"7\n\x14PromptContentRequest\x12\x0e\n\x06prompt\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\":\n\x1bGenerateTitleAndTagResponse\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0c\n\x04tags\x18\x02 \x03(\t\"-\n\x15PolishContentResponse\x12\x14\n\x0c\x63ontentChunk\x18\x01 \x01(\t\".\n\x16SummaryContentResponse\x12\x14\n\x0c\x63ontentChunk\x18\x01 \x01(\t2\xac\x02\n\tAIService\x12R\n\x13generateTitleAndTag\x12\x18.v1.PromptContentRequest\x1a\x1f.v1.GenerateTitleAndTagResponse\"\x00\x12H\n\rpolishContent\x12\x18.v1.PromptContentRequest\x1a\x19.v1.PolishContentResponse\"\x00\x30\x01\x12;\n\x0bsearchPosts\x12\x11.v1.PromptRequest\x1a\x17.v1.SearchPostsResponse\"\x00\x12\x44\n\x0esummaryContent\x12\x12.v1.ContentRequest\x1a\x1a.v1.SummaryContentResponse\"\x00\x30\x01\x42\x37Z5github.com/thoseJanes/tinyblog/pkg/proto/aiservice/v1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'aiservice_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
-  DESCRIPTOR._loaded_options = None
-  _globals['_PROMPTREQUEST']._serialized_start=19
-  _globals['_PROMPTREQUEST']._serialized_end=50
-  _globals['_SEARCHPOSTSRESPONSE']._serialized_start=52
-  _globals['_SEARCHPOSTSRESPONSE']._serialized_end=106
-  _globals['_SUMMARYPOSTSRESPONSE']._serialized_start=108
-  _globals['_SUMMARYPOSTSRESPONSE']._serialized_end=147
-  _globals['_PROMPTCONTENTREQUEST']._serialized_start=149
-  _globals['_PROMPTCONTENTREQUEST']._serialized_end=204
-  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_start=206
-  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_end=264
-  _globals['_POLISHCONTENTRESPONSE']._serialized_start=266
-  _globals['_POLISHCONTENTRESPONSE']._serialized_end=311
-  _globals['_AISERVICE']._serialized_start=314
-  _globals['_AISERVICE']._serialized_end=526
+  _globals['DESCRIPTOR']._loaded_options = None
+  _globals['DESCRIPTOR']._serialized_options = b'Z5github.com/thoseJanes/tinyblog/pkg/proto/aiservice/v1'
+  _globals['_PROMPTREQUEST']._serialized_start=23
+  _globals['_PROMPTREQUEST']._serialized_end=54
+  _globals['_SEARCHPOSTSRESPONSE']._serialized_start=56
+  _globals['_SEARCHPOSTSRESPONSE']._serialized_end=110
+  _globals['_CONTENTREQUEST']._serialized_start=112
+  _globals['_CONTENTREQUEST']._serialized_end=145
+  _globals['_PROMPTCONTENTREQUEST']._serialized_start=147
+  _globals['_PROMPTCONTENTREQUEST']._serialized_end=202
+  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_start=204
+  _globals['_GENERATETITLEANDTAGRESPONSE']._serialized_end=262
+  _globals['_POLISHCONTENTRESPONSE']._serialized_start=264
+  _globals['_POLISHCONTENTRESPONSE']._serialized_end=309
+  _globals['_SUMMARYCONTENTRESPONSE']._serialized_start=311
+  _globals['_SUMMARYCONTENTRESPONSE']._serialized_end=357
+  _globals['_AISERVICE']._serialized_start=360
+  _globals['_AISERVICE']._serialized_end=660
 # @@protoc_insertion_point(module_scope)

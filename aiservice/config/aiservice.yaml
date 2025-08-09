@@ -1,0 +1,4 @@
+llm:
+  api-key: "sk-vfahykwylwoxtocuxpdsnhutmvrxnixreiuhsmrjalgamdzo"
+  url: "https://api.siliconflow.cn/v1"
+  model: "deepseek-ai/DeepSeek-V3"

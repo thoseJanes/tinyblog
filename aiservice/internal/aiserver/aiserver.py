@@ -1,10 +1,8 @@
 from concurrent import futures
 import grpc
-import pkg.proto.aiservice.v1.aiservice_pb2_grpc as pb 
-from pkg.proto.aiservice.v1.aiservice_pb2 import PromptContentRequest, GenerateTitleAndTagResponse, PromptRequest, PolishContentResponse, SearchPostsResponse
-from internal.aiserver.chain.generateTitleAndTag import GenerateTitleAndTagChain, GenerateTitleAndTagOutput
-from internal.aiserver.chain.polishContent import PolishContentChain, PolishContentModel
-from internal.aiserver.chain.searchPosts import SearchPostsChain, SearchPostsModel
+
+from pkg.proto.aiservice.v1 import *
+from internal.aiserver.chain import *
 
 import asyncio
 
@@ -17,6 +15,10 @@ class AIService(pb.AIService):
         print("polishContent requested")
         async for chunk in PolishContentChain.astream(request.prompt, request.content):
             yield PolishContentResponse(contentChunk=chunk)
+    async def summaryContent(self, request:ContentRequest, context:grpc.ServicerContext):
+        print("summaryContent requested")
+        async for chunk in SummaryContentChain.astream(request.content):
+            yield SummaryContentResponse(contentChunk=chunk)
     async def searchPosts(self, request:PromptRequest, context:grpc.ServicerContext):
         print("searchPosts requested")
         messages = await SearchPostsChain.ainvoke(request.prompt)

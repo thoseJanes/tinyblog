@@ -35,19 +35,24 @@ class AIServiceStub(object):
             channel: A grpc.Channel.
         """
         self.generateTitleAndTag = channel.unary_unary(
-                '/AIService/generateTitleAndTag',
+                '/v1.AIService/generateTitleAndTag',
                 request_serializer=aiservice__pb2.PromptContentRequest.SerializeToString,
                 response_deserializer=aiservice__pb2.GenerateTitleAndTagResponse.FromString,
                 _registered_method=True)
         self.polishContent = channel.unary_stream(
-                '/AIService/polishContent',
+                '/v1.AIService/polishContent',
                 request_serializer=aiservice__pb2.PromptContentRequest.SerializeToString,
                 response_deserializer=aiservice__pb2.PolishContentResponse.FromString,
                 _registered_method=True)
         self.searchPosts = channel.unary_unary(
-                '/AIService/searchPosts',
+                '/v1.AIService/searchPosts',
                 request_serializer=aiservice__pb2.PromptRequest.SerializeToString,
                 response_deserializer=aiservice__pb2.SearchPostsResponse.FromString,
+                _registered_method=True)
+        self.summaryContent = channel.unary_stream(
+                '/v1.AIService/summaryContent',
+                request_serializer=aiservice__pb2.ContentRequest.SerializeToString,
+                response_deserializer=aiservice__pb2.SummaryContentResponse.FromString,
                 _registered_method=True)
 
 
@@ -72,6 +77,12 @@ class AIServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def summaryContent(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AIServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -90,11 +101,16 @@ def add_AIServiceServicer_to_server(servicer, server):
                     request_deserializer=aiservice__pb2.PromptRequest.FromString,
                     response_serializer=aiservice__pb2.SearchPostsResponse.SerializeToString,
             ),
+            'summaryContent': grpc.unary_stream_rpc_method_handler(
+                    servicer.summaryContent,
+                    request_deserializer=aiservice__pb2.ContentRequest.FromString,
+                    response_serializer=aiservice__pb2.SummaryContentResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'AIService', rpc_method_handlers)
+            'v1.AIService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('AIService', rpc_method_handlers)
+    server.add_registered_method_handlers('v1.AIService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -115,7 +131,7 @@ class AIService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/AIService/generateTitleAndTag',
+            '/v1.AIService/generateTitleAndTag',
             aiservice__pb2.PromptContentRequest.SerializeToString,
             aiservice__pb2.GenerateTitleAndTagResponse.FromString,
             options,
@@ -142,7 +158,7 @@ class AIService(object):
         return grpc.experimental.unary_stream(
             request,
             target,
-            '/AIService/polishContent',
+            '/v1.AIService/polishContent',
             aiservice__pb2.PromptContentRequest.SerializeToString,
             aiservice__pb2.PolishContentResponse.FromString,
             options,
@@ -169,9 +185,36 @@ class AIService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/AIService/searchPosts',
+            '/v1.AIService/searchPosts',
             aiservice__pb2.PromptRequest.SerializeToString,
             aiservice__pb2.SearchPostsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def summaryContent(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/v1.AIService/summaryContent',
+            aiservice__pb2.ContentRequest.SerializeToString,
+            aiservice__pb2.SummaryContentResponse.FromString,
             options,
             channel_credentials,
             insecure,
