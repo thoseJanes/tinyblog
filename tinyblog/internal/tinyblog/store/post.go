@@ -2,8 +2,11 @@ package store
 
 import (
 	"context"
+	// "strings"
+
 	"github.com/thoseJanes/tinyblog/internal/pkg/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 // type PostStore interface {
@@ -31,6 +34,22 @@ func (p *postStore)	Get(c context.Context, username, postId string) (*model.Post
 	var post model.Post
 	err := p.db.Where("username = ? and postId = ?", username, postId).First(&post).Error
 	return &post, err
+}
+func (p *postStore) GetByIds(c context.Context, ids []string) ([]model.Post, error) {
+	var posts []model.Post
+	// ids[0] = "(" + ids[0]
+	// ids[len(ids)-1] = ids[len(ids)-1] + ")"
+	// idsString := strings.Join(ids, ",")
+	err := p.db.Where("id in ?", ids).Clauses(clause.OrderBy{
+		Expression: clause.Expr{SQL: "FIELD(id, ?)", Vars: []interface{}{ids}, WithoutParentheses: true},
+	  }).Find(&posts).Error
+	return posts, err
+}
+func (p *postStore)	Search(c context.Context, text string, offset,limit int) (int64, []model.Post, error) {
+	var posts []model.Post
+	var count int64
+	err := p.db.Where("title like ?", "%"+text+"%").Offset(offset).Limit(limit).Find(&posts).Offset(-1).Limit(-1).Count(&count).Error
+	return count, posts, err
 }
 func (p *postStore)	Update(c context.Context, post *model.Post) error {
 	return p.db.Where("username = ? and postId = ?", post.Username, post.PostId).Updates(*post).Error

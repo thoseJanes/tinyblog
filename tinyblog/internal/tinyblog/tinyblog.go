@@ -43,6 +43,10 @@ func NewTinyBlogCommand() *cobra.Command {
 				return err
 			}
 
+			if err := initAiClient(); err != nil {
+				return err
+			}
+
 			return run()
 		},
 		Args: cobra.NoArgs,
@@ -70,7 +74,7 @@ func run() error {
 
 	httpSrv := startHttpServer(g)
 	httpsSrv := startHttpsServer(g)
-	gRpcSrv := startGRPCServer(g)
+	// gRpcSrv := startGRPCServer(g)
 
 
 	quit := make(chan os.Signal, 1)
@@ -89,7 +93,7 @@ func run() error {
 		log.Errorw("Https server forced to shutdown", "err", err)
 		return err
 	}
-	gRpcSrv.GracefulStop()
+	//gRpcSrv.GracefulStop()
 
 	log.Infow("Server exited")
 

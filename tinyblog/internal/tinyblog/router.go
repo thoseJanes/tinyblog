@@ -3,10 +3,12 @@ package tinyblog
 import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
+	"github.com/thoseJanes/tinyblog/internal/pkg/aiservice"
 	"github.com/thoseJanes/tinyblog/internal/pkg/core"
 	"github.com/thoseJanes/tinyblog/internal/pkg/errno"
 	"github.com/thoseJanes/tinyblog/internal/pkg/log"
 	"github.com/thoseJanes/tinyblog/internal/pkg/middleware"
+	"github.com/thoseJanes/tinyblog/internal/tinyblog/controller/ai"
 	"github.com/thoseJanes/tinyblog/internal/tinyblog/controller/post"
 	"github.com/thoseJanes/tinyblog/internal/tinyblog/controller/user"
 	"github.com/thoseJanes/tinyblog/internal/tinyblog/store"
@@ -32,7 +34,7 @@ func installRouters(g *gin.Engine) error {
 
 	uc := user.New(store.S, authz)
 	pc := post.New(store.S)
-
+	ac := ai.New(aiservice.Client)
 	
 	
 	api := g.Group("/api")
@@ -57,6 +59,14 @@ func installRouters(g *gin.Engine) error {
 			v1Post.GET("", pc.List)
 			v1Post.DELETE(":postId", pc.Delete)
 			v1Post.PUT(":postId", pc.Update)
+
+			v1Post.GET("/search", pc.Search)
+			v1Post.GET("/aisearch", pc.AiSearch)
+		}
+		v1Ai := v1.Group("/ai", middleware.Authn())
+		{
+			v1Ai.GET("/polish-content", ac.PolishContent)
+			v1Ai.GET("/generate-title", ac.GenerateTitle)
 		}
 	}
 

@@ -24,6 +24,8 @@ type UserStore interface {
 type PostStore interface {
 	Create(c context.Context, post *model.Post) error
 	Get(c context.Context, username, postId string) (*model.Post, error)
+	GetByIds(c context.Context, ids []string) ([]model.Post, error)
+	Search(c context.Context, text string, offset,limit int) (int64, []model.Post, error)
 	Update(c context.Context, post *model.Post) error
 	List(c context.Context, username string, offset,limit int) (int64, []model.Post, error)
 	Delete(c context.Context, username string, postIds []string) error

@@ -16,7 +16,7 @@ type ListPostRequest struct{
 
 type ListPostResponse struct{
 	Posts []*PostInfo `json:"posts"`
-	TotalCount int64 `json:"count"`
+	TotalCount int64 `json:"totalCount"`
 }
 
 type GetPostResponse PostInfo
@@ -40,3 +40,23 @@ type DeletePostRequest struct {
 	PostId string `json:"postId" valid:"required"`
 }
 
+
+type AiSearchPostRequest struct {
+	Prompt string `form:"prompt" valid:"stringlength(1|255)"`
+}
+
+type AiSearchPostResponse struct {
+	Posts []*PostInfo `json:"posts"`
+	Evaluation string `json:"evaluation"`
+}
+
+type SearchPostRequest struct {
+	Text string `form:"text" valid:"stringlength(1|255)"`
+	Offset int `form:"offset"`
+	Limit int `form:"limit"`
+}
+
+type SearchPostResponse struct {
+	Posts []*PostInfo `json:"posts"`
+	TotalCount int64 `json:"totalCount"`
+}

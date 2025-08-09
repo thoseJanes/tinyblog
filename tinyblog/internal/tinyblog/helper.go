@@ -7,6 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/thoseJanes/tinyblog/internal/pkg/aiservice"
 	"github.com/thoseJanes/tinyblog/internal/pkg/log"
 	"github.com/thoseJanes/tinyblog/internal/tinyblog/store"
 	"github.com/thoseJanes/tinyblog/pkg/db"
@@ -76,4 +77,8 @@ func initStore() error {
 
 	store.InitDataStore(db)
 	return nil
+}
+
+func initAiClient() error {
+	return aiservice.InitClient(viper.GetString("aiservice.addr"))
 }

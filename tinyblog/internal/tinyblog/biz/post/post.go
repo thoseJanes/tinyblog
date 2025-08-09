@@ -5,10 +5,12 @@ import (
 	"errors"
 
 	"github.com/jinzhu/copier"
+	"github.com/thoseJanes/tinyblog/internal/pkg/aiservice"
 	"github.com/thoseJanes/tinyblog/internal/pkg/errno"
 	"github.com/thoseJanes/tinyblog/internal/pkg/model"
 	"github.com/thoseJanes/tinyblog/internal/tinyblog/store"
 	"github.com/thoseJanes/tinyblog/pkg/api/tinyblog/v1"
+	pb "github.com/thoseJanes/tinyblog/pkg/proto/aiservice/v1"
 	"gorm.io/gorm"
 )
 
@@ -37,6 +39,8 @@ func (p *postBiz) Create(ctx context.Context, username string, r *v1.CreatePostR
 	if err := p.ds.PostStore().Create(ctx, &postM); err != nil {
 		return nil, err
 	}
+
+	
 
 	return &v1.CreatePostResponse{PostId: postM.PostId}, nil
 }
@@ -115,4 +119,52 @@ func (p *postBiz) List(ctx context.Context, username string, r *v1.ListPostReque
 }
 
 
+func (p *postBiz) Search(ctx context.Context, r *v1.SearchPostRequest) (*v1.SearchPostResponse, error) {
+	tolPost, posts, err := p.ds.PostStore().Search(ctx, r.Text, r.Offset, r.Limit)
+	if err != nil {
+		return nil, err
+	}
 
+	postsInfo := make([]*v1.PostInfo, 0, len(posts))
+	for _, post := range posts {
+		postsInfo = append(postsInfo, &v1.PostInfo{
+			Title: post.Title,
+			Content: post.Content,
+			PostId: post.PostId,
+			Username: post.Username,
+			CreatedAt: post.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: post.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	return &v1.SearchPostResponse{TotalCount: tolPost, Posts: postsInfo}, nil
+}
+
+
+func (p *postBiz) AiSearch(ctx context.Context, r *v1.AiSearchPostRequest) (*v1.AiSearchPostResponse, error) {
+	var in pb.PromptRequest
+	copier.Copy(&in, r)
+	pbResp, err := aiservice.Client.SearchPosts(ctx, &in)
+	if err != nil {
+		return nil, err
+	}
+
+	posts, err := p.ds.PostStore().GetByIds(ctx, pbResp.Ids)
+	if err != nil {
+		return nil, err
+	}
+
+	postsInfo := make([]*v1.PostInfo, 0, len(posts))
+	for _, post := range posts {
+		postsInfo = append(postsInfo, &v1.PostInfo{
+			Title: post.Title,
+			Content: post.Content,
+			PostId: post.PostId,
+			Username: post.Username,
+			CreatedAt: post.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: post.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	return &v1.AiSearchPostResponse{Posts: postsInfo, Evaluation: pbResp.Evaluation}, nil
+}
