@@ -20,6 +20,14 @@ onMounted(()=>{
     }
 })
 
+watch(
+    ()=>route.query,
+    (newValue)=>{
+        const searchValue = route.query.text
+        searchPostRequest(searchValue)
+    }
+)
+
 function searchPostRequest(text){
     const offset = limit.value*(presentPage.value-1)
     const url = "/api/v1/posts/search?text=" + text + "&limit=" + limit.value + "&offset=" + offset

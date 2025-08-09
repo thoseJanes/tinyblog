@@ -10,8 +10,6 @@ function toSearchPage(){
     router.push({
         path:"/search",
         query:{"text":searchContent.value}
-    }).then(()=>{
-        location.reload()
     })
 }
 
