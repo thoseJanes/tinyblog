@@ -1,0 +1,12 @@
+dbutils==3.1.1
+grpcio==1.74.0
+langchain==0.3.27
+langchain_core==0.3.74
+langchain_openai==0.3.29
+langgraph==0.6.4
+protobuf==6.31.1
+pydantic==2.11.7
+PyMySQL==1.1.1
+PyYAML==6.0.2
+PyYAML==6.0.2
+setuptools==75.1.0
