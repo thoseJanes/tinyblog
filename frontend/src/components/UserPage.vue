@@ -14,13 +14,19 @@ onMounted(() => {
     }
 })
 
+function logout(){
+    authStore.clearUserInfo()
+}
 </script>
 
 <template>
 <div style="width: 100%;display:flex;flex-direction: row;font-size: large;">
     <div class = "user_tool_bar">
-        <RouterLink to="./userinfo"><button>profile</button></RouterLink>
-        <RouterLink to="./postsinfo"><button>posts</button></RouterLink>
+        <div class="user_tool_bar_top">
+            <RouterLink to="./userinfo"><button>profile</button></RouterLink>
+            <RouterLink to="./postsinfo"><button>posts</button></RouterLink>
+        </div>
+        <RouterLink to="./login"><button @click="logout" class="user_tool_bar_logout_button">logout</button></RouterLink>
     </div>
     <div style="height: 100%;background-color: black;width: 1px;"></div>
     <div class = "userpage_content">
@@ -33,11 +39,24 @@ onMounted(() => {
 
 <style>
 
+.user_tool_bar_top {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
 
+.user_tool_bar_logout_button {
+    background-color: rgb(255, 191, 191) !important;
+}
+
+.user_tool_bar_logout_button:hover {
+    background-color: rgb(0, 0, 0) !important;
+}
 
 .user_tool_bar {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     /* flex-grow: 1; */
     width: 17%;
 }

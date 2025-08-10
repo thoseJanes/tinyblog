@@ -59,7 +59,7 @@ function loginRequest(){
             throw error("未获得token!")
         }
         authStore.setUserInfo(token, data.get("username"))
-        router.push("/")
+        router.push("/userpage")
         console.log(response);
         isLogin.value = true;
     })
@@ -150,7 +150,7 @@ function findNextElement(startElement, targetTagName) {
 <div style="min-width: 100%;width: max-content;display:flex;flex-direction: column;align-items: center;">
     <div class="login_box">
         <fieldset style="border-style: dashed;border-width: 5px; border-color: rgb(109, 109, 109);padding: 30px;">
-            <legend style="font-size: 30px;" id="legend">Login</legend>
+            <legend style="font-size: 30px;color: black;" id="legend">Login</legend>
             <form id="userInfo">
                 <div class="userinput">
                     <template v-if="!isLogin">

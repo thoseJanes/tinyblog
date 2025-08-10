@@ -1,10 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { RouterView, RouterLink, useRouter } from 'vue-router'
+import { useAuthStore } from './stores/user'
 
 const searchContent = ref("")
 const router = useRouter()
+const authStore = useAuthStore()
+const hasLogin = ref(authStore.isAuthenticated)
 
+watch(
+    ()=>authStore.isAuthenticated,
+    (newValue)=>{
+        hasLogin.value = newValue
+    }
+)
 
 function toSearchPage(){
     router.push({
@@ -24,15 +33,15 @@ function toAiSearchPage(){
 <template>
 <div style="width: 100%;min-height: 100%;height: max-content;display:flex;flex-direction: column;align-items: center;">
     <div class="top_bar">
-        <div class="top_bar_search">
+        <div v-if="hasLogin" class="top_bar_search">
             <input v-model="searchContent" class="top_bar_search_input"></input>
             <button class="top_bar_search_button" @click="toSearchPage">search</button>
             <button class="top_bar_search_button" @click="toAiSearchPage">aiSearch</button>
         </div>
 
-        <RouterLink to="/login"><button class="login">login</button></RouterLink>
-        <RouterLink to="/userinfo"><button class="login">userInfo</button></RouterLink>
-        <RouterLink to="/editpost"><button class="login">+blog</button></RouterLink>
+        <RouterLink v-if="!hasLogin" to="/login"><button class="login">login</button></RouterLink>
+        <RouterLink v-if="hasLogin" to="/userinfo"><button class="login">userInfo</button></RouterLink>
+        <RouterLink v-if="hasLogin" to="/editpost"><button class="login">+blog</button></RouterLink>
     </div>
     </br>
     <div style="height: 1px;width: 100%;background-color: black;">
@@ -75,6 +84,7 @@ function toAiSearchPage(){
     border-radius: 3px;
     background-color: inherit;
     font-size: large;
+    color: black;
 }
 
 .top_bar_search_button {

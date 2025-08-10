@@ -46,6 +46,11 @@ function getRequest(){
     })
     .catch(function(err){
         console.log(err)
+        if(err.response.data.code == "AuthFailure.TokenInvalid"){
+            authStore.clearUserInfo()
+            alert("网络错误，请重新登陆")
+            useRouter().push("/login")
+        }
     })
 }
 function updateRequest(){
@@ -94,6 +99,7 @@ function saveProfile(){
 </script>
 
 <template>
+    <div style="height: 10%;"></div>
     <form id = "userProfileForm">
         <div>
             <label class="label_key">username:</label>
