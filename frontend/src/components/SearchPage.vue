@@ -26,6 +26,13 @@ watch(
     }
 )
 
+watch(
+    ()=>pageJumperRef.value?.offset,
+    (newValue)=>{
+        searchPostRequest(route.query.text)
+    }
+)
+
 function searchPostRequest(text){
     const url = "/api/v1/posts/search?text=" + text + "&limit=" + pageJumperRef.value.limit + "&offset=" + pageJumperRef.value.offset
     axios.get(url)

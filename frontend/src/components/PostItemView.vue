@@ -1,11 +1,14 @@
 <script setup>
 import axios from 'axios';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 
 const posts = ref(null)
 const editable = ref(false)
 const tobeFreshed = ref(false)
+
+const router = useRouter()
 
 function updatePost(postId){
     console.log(postId)
