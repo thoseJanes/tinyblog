@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir -r requirements.txt && pip install -U langchain_c
 
 COPY . .
 
-CMD [ "python", "main.py" ]
+CMD [ "python", "cmd/aiservice/main.py" ]
